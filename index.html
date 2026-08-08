@@ -4,105 +4,368 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Покупки, которые работают на вас</title>
-<link rel="stylesheet" href="style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#F6F4EF;
+  --white:#fff;
+  --text:#1E2A1E;
+  --text-muted:#7A7A6E;
+  --primary:#2E7D45;
+  --primary-dark:#1B5C30;
+  --primary-light:#E6F0E8;
+  --red:#B73A3A;
+  --red-light:#FBEEEE;
+  --red-accent:#C94545;
+  --green:#2E7D45;
+  --green-light:#E6F0E8;
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Inter',sans-serif;
+  color:var(--text);
+  background:var(--bg);
+  -webkit-font-smoothing:antialiased;
+  line-height:1.5;
+}
+
+/* ── Container ── */
+.wrap{
+  max-width:480px;
+  margin:0 auto;
+  background:var(--white);
+  min-height:100vh;
+  overflow:hidden;
+}
+
+/* ── Header ── */
+.site-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:16px 24px;
+}
+.logo{
+  display:flex;align-items:center;gap:8px;
+  font-family:'Manrope',sans-serif;font-weight:800;
+  font-size:1rem;color:var(--primary-dark);
+  text-decoration:none;
+}
+.logo svg{width:22px;height:22px;}
+.burger{background:none;border:none;cursor:pointer;padding:4px;}
+.burger svg{width:24px;height:24px;stroke:var(--text);}
+
+/* ── Hero ── */
+.hero{
+  position:relative;
+  padding:32px 28px 0;
+  min-height:260px;
+  overflow:hidden;
+}
+.hero-text-block{
+  position:relative;z-index:2;
+  max-width:60%;
+}
+.hero h1{
+  font-family:'Manrope',sans-serif;
+  font-size:1.75rem;font-weight:800;
+  line-height:1.2;margin-bottom:16px;
+  color:var(--text);
+}
+.hero-sub{
+  font-size:0.95rem;color:var(--text-muted);
+  line-height:1.5;
+}
+.hero-photo{
+  position:absolute;
+  right:-20px;top:10px;
+  width:55%;height:100%;
+  object-fit:contain;
+  object-position:right top;
+  z-index:1;
+}
+
+/* ── Product cards ── */
+.products{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+  padding:36px 24px 0;
+}
+.product-card{
+  background:var(--white);
+  border:1px solid #ECE8DF;
+  border-radius:16px;
+  padding:20px 8px 14px;
+  display:flex;flex-direction:column;
+  align-items:center;text-align:center;
+  gap:10px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.04);
+}
+.product-card .p-emoji{font-size:2.8rem;line-height:1;}
+.product-card .p-label{
+  font-size:0.82rem;font-weight:500;
+  color:var(--text);line-height:1.25;
+}
+
+/* ── Divider ── */
+.section-divider{
+  display:flex;align-items:center;
+  gap:12px;padding:44px 24px 36px;
+}
+.section-divider::before,
+.section-divider::after{
+  content:'';flex:1;height:2px;
+  background:var(--primary);
+  border-radius:2px;
+}
+.section-divider-text{
+  font-family:'Manrope',sans-serif;
+  font-weight:700;font-size:1.1rem;
+  text-align:center;line-height:1.35;
+}
+.section-divider-text .hl{
+  color:var(--primary-dark);
+  text-decoration:underline;
+  text-underline-offset:3px;
+}
+
+/* ── Comparison panels ── */
+.panel{
+  margin:0 24px 28px;
+  border-radius:20px;
+  padding:28px 20px 24px;
+}
+.panel-bad{background:var(--red-light);}
+.panel-good{background:var(--green-light);}
+
+.panel-tag{
+  display:block;
+  width:fit-content;
+  margin:0 auto 28px;
+  padding:8px 22px;
+  border-radius:10px;
+  font-family:'Manrope',sans-serif;
+  font-weight:700;font-size:0.8rem;
+  letter-spacing:0.5px;
+  text-transform:uppercase;
+  color:var(--white);
+}
+.panel-bad .panel-tag{background:var(--red-accent);}
+.panel-good .panel-tag{background:var(--green);}
+
+.panel-steps{
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
+  gap:4px;
+  margin-bottom:24px;
+}
+
+.p-step{
+  display:flex;flex-direction:column;
+  align-items:center;text-align:center;
+  width:90px;gap:6px;
+}
+.p-step-emoji{font-size:2.6rem;line-height:1;}
+.p-step-num{
+  width:22px;height:22px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.7rem;font-weight:700;color:var(--white);
+}
+.panel-bad .p-step-num{background:var(--red-accent);}
+.panel-good .p-step-num{background:var(--green);}
+
+.p-step-label{
+  font-size:0.78rem;line-height:1.3;
+  color:var(--text);
+}
+.p-step-label .hl-bad{color:var(--red);font-weight:600;font-style:italic;}
+.p-step-label .hl-good{color:var(--primary-dark);font-weight:600;font-style:italic;}
+
+.p-arrow{
+  align-self:center;
+  margin-top:8px;
+  font-size:1.4rem;
+  color:#ccc;
+}
+
+.panel-result{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:14px 16px;
+  border-radius:14px;
+  margin-top:4px;
+}
+.panel-bad .panel-result{background:rgba(183,58,58,0.08);}
+.panel-good .panel-result{background:rgba(46,125,69,0.08);}
+
+.panel-result .r-emoji{font-size:2rem;}
+.panel-result .r-text{font-size:0.85rem;line-height:1.4;}
+.panel-result .r-text .hl-bad{color:var(--red);font-weight:700;}
+.panel-result .r-text .hl-good{color:var(--primary-dark);font-weight:700;}
+
+/* ── Callout ── */
+.callout{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  margin:12px 24px 28px;
+  padding:20px;
+  background:var(--green-light);
+  border-radius:18px;
+}
+.callout-icon{font-size:2.4rem;}
+.callout-text{
+  font-family:'Manrope',sans-serif;
+  font-size:1.05rem;font-weight:700;
+  line-height:1.4;
+}
+.callout-text .hl{color:var(--primary-dark);}
+
+/* ── CTA ── */
+.cta-wrap{
+  padding:0 24px 48px;
+}
+.btn-cta{
+  display:flex;
+  align-items:center;justify-content:center;
+  gap:10px;width:100%;
+  padding:18px 32px;
+  background:var(--primary);color:var(--white);
+  font-family:'Manrope',sans-serif;
+  font-size:1.05rem;font-weight:700;
+  border:none;border-radius:16px;
+  cursor:pointer;text-decoration:none;
+  transition:transform 0.2s,box-shadow 0.2s;
+}
+.btn-cta:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 24px rgba(46,125,69,0.3);
+}
+
+/* ── Animations ── */
+.fi{opacity:0;transform:translateY(18px);transition:opacity 0.5s ease,transform 0.5s ease;}
+.fi.vis{opacity:1;transform:translateY(0);}
+
+/* ── Desktop ── */
+@media(min-width:600px){
+  body{display:flex;align-items:flex-start;justify-content:center;padding:24px 0;}
+  .wrap{border-radius:24px;box-shadow:0 4px 40px rgba(0,0,0,0.07);min-height:auto;}
+}
+</style>
 </head>
 <body>
-<div class="page" style="padding: 44px 32px 60px;">
+<div class="wrap">
 
-  <h1 class="fade-in">Вы всё равно покупаете это каждый месяц</h1>
+  <!-- Header -->
+  <header class="site-header">
+    <a href="#" class="logo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8 7 4 10 4 14a8 8 0 0 0 16 0c0-4-4-7-8-12z"/><path d="M12 22v-8"/><path d="M8 18c2-1 4-1 4-4"/></svg>
+      Умные покупки
+    </a>
+    <button class="burger" aria-label="Меню">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+  </header>
 
-  <div class="intro-icon-row fade-in fade-in-delay-1">
-    <div class="intro-icon-card">
-      <span class="emoji-big">🪥</span>
-      <span class="intro-icon-label">Зубная паста</span>
+  <!-- Hero -->
+  <section class="hero fi">
+    <div class="hero-text-block">
+      <h1>Вы всё равно покупаете это каждый месяц</h1>
+      <p class="hero-sub">Они закончатся —<br>вы купите их снова.</p>
     </div>
-    <div class="intro-icon-card">
-      <span class="emoji-big">🧴</span>
-      <span class="intro-icon-label">Шампунь</span>
+    <img src="bg-01.png" alt="" class="hero-photo">
+  </section>
+
+  <!-- Products -->
+  <div class="products fi">
+    <div class="product-card"><span class="p-emoji">🪥</span><span class="p-label">Зубная паста</span></div>
+    <div class="product-card"><span class="p-emoji">🧴</span><span class="p-label">Шампунь</span></div>
+    <div class="product-card"><span class="p-emoji">🧼</span><span class="p-label">Мыло</span></div>
+    <div class="product-card"><span class="p-emoji">🏠</span><span class="p-label">Средства для дома</span></div>
+  </div>
+
+  <!-- Divider -->
+  <div class="section-divider fi">
+    <div class="section-divider-text">После покупки есть<br>только <span class="hl">два варианта</span></div>
+  </div>
+
+  <!-- Panel: Bad -->
+  <div class="panel panel-bad fi">
+    <span class="panel-tag">Как происходит сейчас</span>
+    <div class="panel-steps">
+      <div class="p-step">
+        <span class="p-step-emoji">🛒</span>
+        <span class="p-step-num">1</span>
+        <span class="p-step-label">Покупаете товар</span>
+      </div>
+      <span class="p-arrow">⟶</span>
+      <div class="p-step">
+        <span class="p-step-emoji">📦</span>
+        <span class="p-step-num">2</span>
+        <span class="p-step-label">Используете</span>
+      </div>
+      <span class="p-arrow">⟶</span>
+      <div class="p-step">
+        <span class="p-step-emoji">🗑️</span>
+        <span class="p-step-num">3</span>
+        <span class="p-step-label">Товар закончился. <span class="hl-bad">Деньги ушли.</span></span>
+      </div>
     </div>
-    <div class="intro-icon-card">
-      <span class="emoji-big">🧼</span>
-      <span class="intro-icon-label">Мыло</span>
-    </div>
-    <div class="intro-icon-card">
-      <span class="emoji-big">🏠</span>
-      <span class="intro-icon-label">Средства для дома</span>
+    <div class="panel-result">
+      <span class="r-emoji">💸</span>
+      <div class="r-text">Вы получаете только товар. <span class="hl-bad">Деньги потрачены.</span></div>
     </div>
   </div>
 
-  <p class="intro-sub fade-in fade-in-delay-1">Они закончатся — вы купите их снова.</p>
-
-  <div class="intro-divider fade-in fade-in-delay-2">
-    <div class="intro-divider-text">После покупки есть только <span class="hl">два варианта</span></div>
-  </div>
-
-  <div class="mini-compare-grid fade-in fade-in-delay-2">
-
-    <div class="mini-panel mini-panel-bad">
-      <div class="mini-title">КАК ПРОИСХОДИТ СЕЙЧАС</div>
-      <div class="mini-steps">
-        <div class="mini-step">
-          <div class="mini-step-icon">🛒</div>
-          <div class="mini-step-num">1</div>
-          <div class="mini-step-label">Покупаете товар</div>
-        </div>
-        <div class="mini-arrow">→</div>
-        <div class="mini-step">
-          <div class="mini-step-icon">📦</div>
-          <div class="mini-step-num">2</div>
-          <div class="mini-step-label">Используете</div>
-        </div>
-        <div class="mini-arrow">→</div>
-        <div class="mini-step">
-          <div class="mini-step-icon">🗑️</div>
-          <div class="mini-step-num">3</div>
-          <div class="mini-step-label">Пустая упаковка. <span class="hl-bad">Деньги ушли.</span></div>
-        </div>
+  <!-- Panel: Good -->
+  <div class="panel panel-good fi">
+    <span class="panel-tag">Как может быть</span>
+    <div class="panel-steps">
+      <div class="p-step">
+        <span class="p-step-emoji">🛒</span>
+        <span class="p-step-num">1</span>
+        <span class="p-step-label">Покупаете товар</span>
       </div>
-      <div class="mini-result">
-        <span class="emoji-mid">🪽</span>
-        <div class="mini-result-text">Вы получаете только товар. <span class="hl-bad">Деньги потрачены.</span></div>
+      <span class="p-arrow">⟶</span>
+      <div class="p-step">
+        <span class="p-step-emoji">📦</span>
+        <span class="p-step-num">2</span>
+        <span class="p-step-label">Используете</span>
+      </div>
+      <span class="p-arrow">⟶</span>
+      <div class="p-step">
+        <span class="p-step-emoji">♻️</span>
+        <span class="p-step-num">3</span>
+        <span class="p-step-label">Товар закончился. <span class="hl-good">Часть денег вернулась вам.</span></span>
       </div>
     </div>
-
-    <div class="mini-or">ИЛИ</div>
-
-    <div class="mini-panel mini-panel-good">
-      <div class="mini-title">КАК МОЖЕТ БЫТЬ</div>
-      <div class="mini-steps">
-        <div class="mini-step">
-          <div class="mini-step-icon">🛒</div>
-          <div class="mini-step-num">1</div>
-          <div class="mini-step-label">Покупаете товар</div>
-        </div>
-        <div class="mini-arrow">→</div>
-        <div class="mini-step">
-          <div class="mini-step-icon">📦</div>
-          <div class="mini-step-num">2</div>
-          <div class="mini-step-label">Используете</div>
-        </div>
-        <div class="mini-arrow">→</div>
-        <div class="mini-step">
-          <div class="mini-step-icon">💰</div>
-          <div class="mini-step-num">3</div>
-          <div class="mini-step-label">Часть денег <span class="hl-good">возвращается вам.</span></div>
-        </div>
-      </div>
-      <div class="mini-result">
-        <span class="emoji-mid">👛</span>
-        <div class="mini-result-text">Вы получаете товар и часть потраченных денег <span class="hl-good">возвращается.</span></div>
-      </div>
+    <div class="panel-result">
+      <span class="r-emoji">👛</span>
+      <div class="r-text">Вы получаете товар и часть потраченных денег <span class="hl-good">возвращается.</span></div>
     </div>
-
   </div>
 
-  <div class="intro-callout fade-in fade-in-delay-2">
-    <div class="intro-callout-icon">💡</div>
-    <div class="intro-callout-text">Покупка та же. <span class="hl">Разница — в результате.</span></div>
+  <!-- Callout -->
+  <div class="callout fi">
+    <span class="callout-icon">💡</span>
+    <div class="callout-text">Покупка та же.<br>Разница — <span class="hl">в результате.</span></div>
   </div>
 
-  <a href="02.html" class="btn-next fade-in fade-in-delay-2">Показать, как это работает <span class="arrow">→</span></a>
+  <!-- CTA -->
+  <div class="cta-wrap fi">
+    <a href="02.html" class="btn-cta">Показать, как это работает <span>→</span></a>
+  </div>
 
 </div>
+
+<script>
+const obs=new IntersectionObserver(e=>{e.forEach(el=>{if(el.isIntersecting)el.target.classList.add('vis')})},{threshold:0.12});
+document.querySelectorAll('.fi').forEach(el=>obs.observe(el));
+</script>
 </body>
 </html>
