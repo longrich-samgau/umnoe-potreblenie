@@ -211,6 +211,16 @@ body{
   body{display:flex;align-items:flex-start;justify-content:center;padding:24px 0;}
   .wrap{border-radius:24px;box-shadow:0 4px 40px rgba(0,0,0,0.07);min-height:auto;}
 }
+
+/* ── Copy protection ── */
+body{
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  user-select:none;
+}
+video{pointer-events:auto;}
+img,video{-webkit-user-drag:none;-khtml-user-drag:none;-moz-user-drag:none;-o-user-drag:none;user-drag:none;}
 </style>
 </head>
 <body>
@@ -243,7 +253,7 @@ body{
 
     <!-- Video -->
     <div class="video-block fi" style="padding:32px 0 0;">
-      <video autoplay muted playsinline style="width:100%;border-radius:16px;">
+      <video controls playsinline style="width:100%;border-radius:16px;">
         <source src="video-01.mp4" type="video/mp4">
       </video>
     </div>
@@ -320,6 +330,12 @@ body{
 <script>
 const obs=new IntersectionObserver(e=>{e.forEach(el=>{if(el.isIntersecting)el.target.classList.add('vis')})},{threshold:0.12});
 document.querySelectorAll('.fi').forEach(el=>obs.observe(el));
+
+// Copy protection
+document.addEventListener('contextmenu',e=>e.preventDefault());
+document.addEventListener('copy',e=>e.preventDefault());
+document.addEventListener('cut',e=>e.preventDefault());
+document.addEventListener('dragstart',e=>e.preventDefault());
 </script>
 </body>
 </html>
